@@ -3,6 +3,8 @@
   display: flex;
 }
 
-.App > div {
+.App > .Todolist {
   margin-right: 50px;
+  border: 3px darkgreen solid;
+  padding: 50px;
 }

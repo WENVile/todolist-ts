@@ -1,19 +1,16 @@
 import React from 'react';
+import {TasksType} from "./App";
 
 type PropsType = {
     title: string;
     tasks: TasksType[];
+    deleteTask: (id: number) => void
 }
 
-type TasksType = {
-    id: number;
-    title: string;
-    isDone: boolean;
-}
+
 function Todolist (props: PropsType) {
     return (
-        <div className="App">
-            <div>
+            <div className='Todolist'>
                 <h3>{props.title}</h3>
                 <div>
                     <input/>
@@ -21,7 +18,7 @@ function Todolist (props: PropsType) {
                 </div>
                 <ul>
                     {props.tasks.map((el) => {
-                        return <li key={el.id}><input type="checkbox" checked={el.isDone}/><span>{el.title}</span></li>
+                        return <li key={el.id}><input type="checkbox" checked={el.isDone}/><span>{el.title}</span><button onClick={() => props.deleteTask(el.id)}>[X]</button></li>
                     })}
                 </ul>
                 <div>
@@ -30,7 +27,6 @@ function Todolist (props: PropsType) {
                     <button>Completed</button>
                 </div>
             </div>
-        </div>
     );
 }
 
