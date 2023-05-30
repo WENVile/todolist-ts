@@ -20,7 +20,7 @@ function Todolist (props: PropsType) {
             <div className='Todolist'>
                 <h3>{props.title}</h3>
                 <div>
-                    <input value={inputAddNewTaskValue} onKeyPress={(e) => {
+                    <input value={inputAddNewTaskValue} onKeyUp={(e) => {
                         if(e.key === 'Enter') {
                             props.addNewTask(inputAddNewTaskValue);
                             setInputAddNewTaskValue('')
