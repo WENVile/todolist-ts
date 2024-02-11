@@ -14,18 +14,14 @@ export type TasksType = {
 
 export type FilterType = 'all' | 'active' | 'completed';
 
-type TodolistsType = {
-    id: string;
-    title: string;
-    filter: FilterType;
-}
+
 
 function App() {
 
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+    let [todolists, setTodolists] = useState ([
         { id: todolistID1, title: 'What to learn', filter: 'all' },
         { id: todolistID2, title: 'What to buy', filter: 'all' },
     ])
@@ -55,8 +51,6 @@ function App() {
         setTodolists(todolists.map(el => el.id === id ? { ...el, filter: value } : el))
     }
 
-
-
     const deleteTask = (todolistId: string, taskId: string) => {
         setTasks({ ...tasks1, [todolistId]: tasks1[todolistId].filter(el => el.id !== taskId) })
     }
@@ -77,6 +71,7 @@ function App() {
 
                 return (
                     <Todolist
+                        key={el.id}
                         todolistId={el.id}
                         title={el.title}
                         tasks={tasks1[el.id]}

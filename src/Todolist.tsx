@@ -18,8 +18,9 @@ type PropsType = {
 
 
 function Todolist(props: PropsType) {
-
-
+    
+    const [inputAddNewTaskValue, setInputAddNewTaskValue] = useState('');
+    const [error, setError] = useState<string | null>(null)
 
     let tasksAfterFiltering = props.tasks;
 
@@ -31,8 +32,6 @@ function Todolist(props: PropsType) {
         tasksAfterFiltering = props.tasks.filter(el => el.isDone);
     }
 
-    const [inputAddNewTaskValue, setInputAddNewTaskValue] = useState('');
-    const [error, setError] = useState<string | null>(null)
 
     const addTask = () => {
         if (inputAddNewTaskValue.trim() !== '') {
