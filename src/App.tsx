@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import Paper from '@mui/material/Paper';
 
 import './App.css';
 
 import Todolist from "./Todolist";
 import { v1 } from "uuid";
+import { AddItemForm } from './Components/AddItemForm';
 
 
 export type TasksType = {
@@ -13,9 +15,7 @@ export type TasksType = {
 }
 
 export type FilterType = 'all' | 'active' | 'completed';
-
-
-
+ 
 function App() {
 
     let todolistID1 = v1()
@@ -39,8 +39,6 @@ function App() {
         ]
     })
 
-
-
     const removeTodoList = (todolistId: string,) => {
         setTodolists(todolists.filter(el => el.id !== todolistId))
         delete tasks1[todolistId]
@@ -61,29 +59,49 @@ function App() {
 
     const addNewTask = (todolistId: string, value: string) => {
         let newTask = { id: v1(), title: value, isDone: false }
-        // let newTasks = [newTask, ...tasks1];
         setTasks({ ...tasks1, [todolistId]: [newTask, ...tasks1[todolistId]] });
+    }
+
+    const addTodoList = (title: string) => {
+        const newId = v1();
+        let newTodoList = {id: newId, title, filter: 'all'}
+        setTasks({ ...tasks1, [newId]: []})
+        setTodolists([newTodoList, ...todolists])
+    }
+
+    const updateTitleItem = (todolistId: string, itemId: string, newTitle: string) => {
+        setTasks({...tasks1, [todolistId]: tasks1[todolistId].map(el => el.id === itemId ? {...el, title: newTitle }: el)})
+    }
+
+    const updateTitleTodolist = (todolistId: string, newTitle: string) => {
+        setTodolists(todolists.map(el => el.id === todolistId ? {...el, title: newTitle} : el));
     }
 
     return (
         <div className='App'>
-            {todolists.map(el => {
+            
+            <AddItemForm onClick={addTodoList}/>
+            <div className='App-Wrapper'>
+                {todolists.map(el => {
 
                 return (
-                    <Todolist
-                        key={el.id}
-                        todolistId={el.id}
-                        title={el.title}
-                        tasks={tasks1[el.id]}
-                        deleteTask={deleteTask}
-                        changeFilter={changeFilter}
-                        changeCheckedStatus={changeCheckedStatus}
-                        addNewTask={addNewTask}
-                        filter={el.filter}
-                        removeTodolist={removeTodoList}
-                    />)
+                    <Paper elevation={8}>
+                        <Todolist
+                            key={el.id}
+                            todolistId={el.id}
+                            title={el.title}
+                            tasks={tasks1[el.id]}
+                            deleteTask={deleteTask}
+                            changeFilter={changeFilter}
+                            changeCheckedStatus={changeCheckedStatus}
+                            addNewTask={addNewTask}
+                            filter={el.filter}
+                            removeTodolist={removeTodoList}
+                            updateTitleItem={updateTitleItem}
+                            updateTitleTodolist={updateTitleTodolist}/>
+                    </Paper>)
             })}
-
+            </div>
         </div>
     )
 }

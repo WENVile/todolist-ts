@@ -8,7 +8,7 @@ type PropsType = {
 }
 
 
-function Button(props: PropsType) {
+function ButtonManual(props: PropsType) {
 
     const onClickHandler = () => {
         props.callBack()
@@ -19,4 +19,4 @@ function Button(props: PropsType) {
     )
 }
 
-export default Button
+export default ButtonManual

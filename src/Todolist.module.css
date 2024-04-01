@@ -13,3 +13,16 @@
 .isDone {
     opacity: 0.5;
 }
+
+.button {
+    min-width: 35px !important;
+    max-width: 35px !important;
+    min-height: 35px !important;
+    max-height: 35x !important;
+    margin-left: 10px !important;
+}
+
+.filterButton {
+    margin-right: 5px !important;
+}
+

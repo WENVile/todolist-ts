@@ -1,10 +1,26 @@
 .App {
   padding: 30px;
   display: flex;
+  flex-direction: column;
+  
 }
 
-.App>.Todolist {
+.App .addItemFormWrapper {
   margin: 0 auto;
-  border: 3px darkgreen solid;
+  
+}
+
+.App-Wrapper {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.Todolist {
+  
   padding: 50px;
+}
+
+.Todolist ul {
+    list-style-type: none;
 }
