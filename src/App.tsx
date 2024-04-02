@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import Paper from '@mui/material/Paper';
 
 import './App.css';
@@ -6,6 +6,7 @@ import './App.css';
 import Todolist from "./Todolist";
 import { v1 } from "uuid";
 import { AddItemForm } from './Components/AddItemForm';
+import { addTodolistAC, changeFilterAC, removeTodolistAC, todolistReducer, updateTitleTodolistAC } from './state/todolist-reducer';
 
 
 export type TasksType = {
@@ -15,13 +16,21 @@ export type TasksType = {
 }
 
 export type FilterType = 'all' | 'active' | 'completed';
+
+export type TodolistType = {
+    id: string;
+    title: string;
+    filter: FilterType;
+}
+
+
  
 function App() {
 
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolists, setTodolists] = useState ([
+    let [todolists, dispatchTodolists] = useReducer(todolistReducer,[
         { id: todolistID1, title: 'What to learn', filter: 'all' },
         { id: todolistID2, title: 'What to buy', filter: 'all' },
     ])
@@ -39,14 +48,17 @@ function App() {
         ]
     })
 
-    const removeTodoList = (todolistId: string,) => {
-        setTodolists(todolists.filter(el => el.id !== todolistId))
+    const removeTodoList = (todolistId: string) => {
+        dispatchTodolists(removeTodolistAC(todolistId));
         delete tasks1[todolistId]
-        console.log(tasks1)
+        // setTodolists(todolists.filter(el => el.id !== todolistId))
+        // delete tasks1[todolistId]
+        // console.log(tasks1)
     }
 
-    const changeFilter = (value: FilterType, id: string) => {
-        setTodolists(todolists.map(el => el.id === id ? { ...el, filter: value } : el))
+    const changeFilter = (value: FilterType, todolistId: string) => {
+        dispatchTodolists(changeFilterAC(value, todolistId));
+        // setTodolists(todolists.map(el => el.id === id ? { ...el, filter: value } : el))
     }
 
     const deleteTask = (todolistId: string, taskId: string) => {
@@ -64,9 +76,10 @@ function App() {
 
     const addTodoList = (title: string) => {
         const newId = v1();
-        let newTodoList = {id: newId, title, filter: 'all'}
         setTasks({ ...tasks1, [newId]: []})
-        setTodolists([newTodoList, ...todolists])
+        dispatchTodolists(addTodolistAC(title, newId));
+        
+        // setTodolists([{ id: newId, title, filter: 'all' }, ...todolists])
     }
 
     const updateTitleItem = (todolistId: string, itemId: string, newTitle: string) => {
@@ -74,7 +87,7 @@ function App() {
     }
 
     const updateTitleTodolist = (todolistId: string, newTitle: string) => {
-        setTodolists(todolists.map(el => el.id === todolistId ? {...el, title: newTitle} : el));
+        dispatchTodolists(updateTitleTodolistAC(todolistId, newTitle));
     }
 
     return (
